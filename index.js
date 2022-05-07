@@ -20,20 +20,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const serviceCollection = client.db("wareHouse").collection("service");
+    const serviceCollection = client.db("wareHouse").collection("inventory");
 
-    app.get("/service", async (req, res) => {
+    app.get("/inventory", async (req, res) => {
       const quary = {};
       const cursor = serviceCollection.find(quary);
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    app.get("/service/:id", async (req, res) => {
+    app.get("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const quary = { _id: ObjectId(id) };
-      const result = await serviceCollection.findOne(quary);
-      res.send(result);
+      const inventory = await serviceCollection.findOne(quary);
+      res.send(inventory);
     });
   } finally {
   }
