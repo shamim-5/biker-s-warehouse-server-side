@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
@@ -26,6 +26,13 @@ async function run() {
       const quary = {};
       const cursor = stockCollection.find(quary);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get("/stock/:id", async (req, res) => {
+      const id = req.params.id;
+      const quary = { _id: ObjectId(id) };
+      const result = await stockCollection.findOne(quary);
       res.send(result);
     });
   } finally {
