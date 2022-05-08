@@ -21,6 +21,7 @@ async function run() {
   try {
     await client.connect();
     const serviceCollection = client.db("wareHouse").collection("inventory");
+    const galleryCollection = client.db("wareHouse").collection("gallery");
 
     app.get("/inventory", async (req, res) => {
       const quary = {};
@@ -28,13 +29,28 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    app.get("/gallery", async (req, res) => {
+      const quary = {};
+      const cursor = galleryCollection.find(quary);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
+    //GET
     app.get("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const quary = { _id: ObjectId(id) };
       const inventory = await serviceCollection.findOne(quary);
       res.send(inventory);
     });
+     
+     //POST
+     app.post('/inventory', async (req, res) => {
+        console.log(req.body);
+        const newQuantity = req.body;
+        const result = await serviceCollection.insertOne(newQuantity);
+        res.send(result);
+     })
   } finally {
   }
 }
