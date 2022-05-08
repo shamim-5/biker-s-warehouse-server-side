@@ -43,14 +43,9 @@ async function run() {
       const inventory = await serviceCollection.findOne(quary);
       res.send(inventory);
     });
-     
-     //POST
-     app.post('/inventory', async (req, res) => {
-        console.log(req.body);
-        const newQuantity = req.body;
-        const result = await serviceCollection.insertOne(newQuantity);
-        res.send(result);
-     })
+
+    //POST
+    
   } finally {
   }
 }
