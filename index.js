@@ -44,6 +44,14 @@ async function run() {
       res.send(inventory);
     });
 
+    //POST
+    app.post("/inventory", async (req, res) => {
+      console.log(req.body);
+      const newInventory = req.body;
+      const result = await serviceCollection.insertOne(newInventory);
+      res.send(result);
+    });
+
     //DELETE
     app.delete("/inventory/:id", async (req, res) => {
       const id = req.params.id;
